@@ -27,10 +27,6 @@ def get_dial_position(position: int, rotation: str):
     else:
         new_position = dial[current_position]
 
-    print(
-        f"{position} {'+ ' if direction == 'R' else '-'} {rotation} -> {new_position} {zero_passes}"
-    )
-
     return [dial[new_position], zero_passes]
 
 
