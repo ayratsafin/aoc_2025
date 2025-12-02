@@ -1,4 +1,5 @@
 import sys
+from textwrap import wrap
 
 result = 0
 
@@ -8,16 +9,26 @@ def get_ids_list(id_range_str: str) -> list[int]:
     return list(range(int(min), int(max) + 1))
 
 
+def is_invalid_id(id: str) -> bool:
+    if len(id) == 1:
+        return False
+
+    if len(set(id)) == 1:
+        return True
+
+    for i in range(2, len(id)):
+        if len(id) % int(i) == 0:
+            if len(set(list(wrap(id, int(i))))) == 1:
+                return True
+
+    return False
+
+
 def get_invalid_ids(ids: list[int]) -> list[int]:
     result = []
     for id in ids:
         id_str = str(id)
-        id_length = len(id_str)
-        if id_length % 2 != 0:
-            continue
-
-        half_id_str = int(id_length / 2)
-        if id_str[0:half_id_str] == id_str[half_id_str:]:
+        if is_invalid_id(id_str):
             result.append(id)
     return result
 
@@ -54,4 +65,4 @@ if __name__ == "__main__":
         invalid_ids = get_invalid_ids(ids_list)
         all_invalid_ids.extend(invalid_ids)
     print(all_invalid_ids)
-    print(get_sum_invalid_ids(all_invalid_ids))
+    print(f"sum: {get_sum_invalid_ids(all_invalid_ids)}")
